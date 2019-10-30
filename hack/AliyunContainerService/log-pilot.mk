@@ -1,8 +1,8 @@
 # Log-Poilot 部署脚本
-
+# https://github.com/AliyunContainerService/log-pilot
 
 install:
-	cd ../../vendor/AliyunContainerService/log-pilot && ./build-image.sh
+	cd ../../3rd/AliyunContainerService/log-pilot && ./build-image.sh
 
 start:
 	docker run --rm -it \

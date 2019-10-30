@@ -15,13 +15,13 @@ endif
 status: status-docker status-k8s
 
 # 下载依赖包
-deps: deps-vendor
+deps: deps-3rd
 
 # 同步更新依赖代码
-update: update-vendor
+update: update-3rd
 
 # 编译依赖包
-build: build-vendor
+build: build-3rd
 
 
 # ####################################
@@ -39,22 +39,22 @@ status-k8s:
 # ####################################
 # Build AREA
 # ####################################
-build-vendor: update-vendor
+build-3rd: update-3rd
 	make -C hack/AliyunContainerService -f log-pilot.mk install
 
 
 # ####################################
 # Update AREA
 # ####################################
-update-vendor: deps-vendor
-	make -C vendor sync
+update-3rd: deps-3rd
+	make -C 3rd sync
 
 
 # ####################################
 # Deps AREA
 # ####################################
-deps-vendor:
-	make -C vendor
+deps-3rd:
+	make -C 3rd
 
 
 # ####################################
