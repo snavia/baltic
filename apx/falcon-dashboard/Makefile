@@ -35,13 +35,13 @@ DK_RUN_OPT := \
 DK_IMG	:= openfalcon/falcon-dashboard:v0.2.1
 
 # 入口
-DK_ENTRY := -d $(DK_IMG) ./control startfg
+DK_ENTRY := -itd $(DK_IMG) './control startfg'
 DK_CTL_ENTRY := /bin/bash
 
 # 固定参数部分(根据需要可改为sudo docker)
 # DK_RUN  := $(DK) run --rm --privileged -v/etc/localtime:/etc/localtime
 DK := docker
-DK_RUN  := $(DK) run --privileged
+DK_RUN  := $(DK) run --rm --privileged
 
 
 # ####################################
@@ -51,7 +51,7 @@ status:
 	$(DK) images
 	$(DK) ps -a
 	$(DK) stats --no-stream
-	$(DK) port $(NAME)
+	-$(DK) port $(NAME)
 
 start: deps do-start status
 stop: do-stop status
@@ -83,8 +83,6 @@ do-start:
 	$(DK_RUN) --name $(NAME) -h $(NAME) $(DK_RUN_OPT) $(DK_ENTRY)
 do-stop:
 	-$(DK) stop $(NAME)
-do-staus:
-	$(DK) ps -a
 
 
 # ####################################
@@ -93,4 +91,4 @@ do-staus:
 clean:
 	# 清理临时文件、无效的容器
 	rm -rvf *.bak *.log
-	$(DK) ps -a | awk '{print $1}' | grep -v CONTAINER | xargs $(DK) rm
+	$(DK) ps -a | grep Exited | awk '{print $$1}' | xargs $(DK) rm

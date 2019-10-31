@@ -28,7 +28,7 @@ DK_RUN_OPT := \
 DK_IMG	:= openfalcon/falcon-plus:v0.3
 
 # 入口
-DK_ENTRY := -d $(DK_IMG)
+DK_ENTRY := -itd $(DK_IMG)
 DK_CTL_ENTRY := /bin/bash
 
 # 固定参数部分(根据需要可改为sudo docker)
@@ -44,7 +44,7 @@ status:
 	$(DK) images
 	$(DK) ps -a
 	$(DK) stats --no-stream
-	$(DK) port $(NAME)
+	-$(DK) port $(NAME)
 
 start: deps do-start status
 stop: do-stop status
@@ -74,10 +74,10 @@ deps:
 # ####################################
 do-start:
 	$(DK_RUN) --name $(NAME) -h $(NAME) $(DK_RUN_OPT) $(DK_ENTRY)
+	$(DK) exec $(NAME) sh ctrl.sh start \
+            graph hbs judge transfer nodata aggregator agent gateway api alarm
 do-stop:
 	-$(DK) stop $(NAME)
-do-staus:
-	$(DK) ps -a
 
 
 # ####################################
@@ -86,4 +86,4 @@ do-staus:
 clean:
 	# 清理临时文件、无效的容器
 	rm -rvf *.bak *.log
-	$(DK) ps -a | awk '{print $1}' | grep -v CONTAINER | xargs $(DK) rm
+	$(DK) ps -a | grep Exited | awk '{print $$1}' | xargs $(DK) rm
