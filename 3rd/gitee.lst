@@ -1,0 +1,8 @@
+# K8S
+mirrors/Kubernetes
+mirrors/heapster
+mirrors/prometheus-kubernetes
+mirrors/prometheus
+
+# 配置中心
+mirrors/ctrip-apollo

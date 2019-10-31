@@ -9,14 +9,8 @@ DATE_SUF = $(shell date +%Y.%m.%d.%H.%M.%S)
 # ###########################
 .PHONY: init fini clean install uninstall sync export
 init:
-	for x in `cat repo.lst`; do \
-	  echo $$x; \
-	  dname=$$(dirname $$x); \
-	  fname=$$(basename $$x); \
-	  [ ! -d "$$dname" ] && mkdir -p "$$dname"; \
-	  [ ! -d "$$x" ] && git clone "${REPO_BASE}$${x}.git" "$$x"; \
-	  echo "$$x done"; \
-	done;
+	$(call fetchRepoList,gitee.lst,git@gitee.com:)
+	$(call fetchRepoList,github.lst,git@github.com:)
 	@echo ALL DONE;
 fini:
 	echo "$@ - PASS"
@@ -45,4 +39,15 @@ define verifyLink
 	[ -h $(2) ] && $(3) unlink $(2) || >/dev/null
 	[ -e $(2) ] && $(3) mv $(2) $(2)-$(DATE_SUF) || >/dev/null
 	[ ! -h $(2) ] && $(3) ln -s $(1) $(2) || >/dev/null
+endef
+
+define fetchRepoList
+	for x in $(shell cat $(1) | grep -v '#'); do \
+		echo $$x; \
+		dname=$$(dirname $$x); \
+		fname=$$(basename $$x); \
+		[ ! -d "$$dname" ] && mkdir -p "$$dname"; \
+		[ ! -d "$$x" ] && git clone "$(2)$${x}.git" "$$x"; \
+		echo "$$x done"; \
+	done;
 endef
