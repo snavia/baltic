@@ -8,6 +8,7 @@ export GOPROXY=https://goproxy.io
 
 SRC_DIR := ../../3rd/open-falcon/falcon-plus
 DEST_DIR := ../../docker/open-falcon
+DEST_MYSQL_SCP_DIR	:= ../../apx/falcon-mysql/stub
 
 build:
 	make -C $(SRC_DIR)
@@ -21,3 +22,5 @@ install: build
 	rsync -avP $(SRC_DIR)/scripts $(DEST_DIR)/
 	rsync -avP $(SRC_DIR)/open-falcon $(DEST_DIR)/
 	rsync -avP $(SRC_DIR)/logo.png $(DEST_DIR)/
+	[ -d "$(DEST_MYSQL_SCP_DIR)" ] || mkdir -p "$(DEST_MYSQL_SCP_DIR)"
+	rsync -avP $(SRC_DIR)/scripts/mysql/db_schema/ $(DEST_MYSQL_SCP_DIR)/
