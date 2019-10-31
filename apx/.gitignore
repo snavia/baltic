@@ -1,3 +1,6 @@
 # DATA
 falcon-mysql/data
 falcon-mysql/stub/*.sql
+falcon-redis/data
+falcon-plus/data
+falcon-dashboard/data

@@ -1,4 +1,5 @@
-# Redis for Open-Falcon
+# Dashboard for Open-Falcon
+# Version: 20191031
 
 PWD := $(shell pwd)
 NAME := $(shell basename "$(PWD)")
@@ -14,21 +15,33 @@ LOG_DIR := $(PWD)/../../log/$(NAME)
 
 # 启动参数
 DK_RUN_OPT := \
-				-v $(DATA_DIR):/var/lib/redis \
-				-v $(LOG_DIR):/var/log/redis \
-        -p 16379:6379 \
+        --link=falcon-mysql:db.falcon \
+        --link=falcon-plus:api.falcon \
+        -e API_ADDR=http://api.falcon:8080/api/v1 \
+        -e PORTAL_DB_HOST=db.falcon \
+        -e PORTAL_DB_PORT=3306 \
+        -e PORTAL_DB_USER=root \
+        -e PORTAL_DB_PASS=test123456 \
+        -e PORTAL_DB_NAME=falcon_portal \
+        -e ALARM_DB_HOST=db.falcon \
+        -e ALARM_DB_PORT=3306 \
+        -e ALARM_DB_USER=root \
+        -e ALARM_DB_PASS=test123456 \
+        -e ALARM_DB_NAME=alarms \
+        -w /open-falcon/dashboard \
+				-p 18081:8081 \
 
 # 镜像
-DK_IMG	:= redis:4-alpine3.8
+DK_IMG	:= openfalcon/falcon-dashboard:v0.2.1
 
 # 入口
-DK_ENTRY := -d $(DK_IMG)
+DK_ENTRY := -d $(DK_IMG) ./control startfg
 DK_CTL_ENTRY := /bin/bash
 
 # 固定参数部分(根据需要可改为sudo docker)
 # DK_RUN  := $(DK) run --rm --privileged -v/etc/localtime:/etc/localtime
 DK := docker
-DK_RUN  := $(DK) run --rm --privileged
+DK_RUN  := $(DK) run --privileged
 
 
 # ####################################
@@ -50,7 +63,7 @@ log:
 	$(DK) logs $(NAME)
 
 mon:
-	$(DK) stats $(NAME
+	$(DK) stats $(NAME)
 
 ginit:
 

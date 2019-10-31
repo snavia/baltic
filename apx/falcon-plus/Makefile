@@ -1,4 +1,5 @@
-# Redis for Open-Falcon
+# Core of Open-Falcon
+# Version: 20191031
 
 PWD := $(shell pwd)
 NAME := $(shell basename "$(PWD)")
@@ -14,12 +15,17 @@ LOG_DIR := $(PWD)/../../log/$(NAME)
 
 # 启动参数
 DK_RUN_OPT := \
-				-v $(DATA_DIR):/var/lib/redis \
-				-v $(LOG_DIR):/var/log/redis \
-        -p 16379:6379 \
+        --link=falcon-mysql:db.falcon \
+        --link=falcon-redis:redis.falcon \
+				-v $(DATA_DIR):/open-falcon/data \
+				-v $(LOG_DIR):/open-falcon/logs \
+        -e MYSQL_PORT=root:test123456@tcp\(db.falcon:3306\) \
+        -e REDIS_PORT=redis.falcon:6379  \
+        -p 18433:8433 \
+        -p 18080:8080 \
 
 # 镜像
-DK_IMG	:= redis:4-alpine3.8
+DK_IMG	:= openfalcon/falcon-plus:v0.3
 
 # 入口
 DK_ENTRY := -d $(DK_IMG)

@@ -1,4 +1,5 @@
 # MySQL for Open-Falcon
+# Version: 20191031
 
 PWD := $(shell pwd)
 NAME := $(shell basename "$(PWD)")
@@ -10,7 +11,6 @@ DATA_SUF = $(shell date +"%Y.%m.%d.%H.%M.%S")
 # ####################################
 DATA_DIR := $(PWD)/data
 LOG_DIR := $(PWD)/../../log/$(NAME)
-# LOG_DIR := $(shell cd "$(LOG_DIR)" >/dev/null && pwd)
 
 
 # 启动参数
@@ -39,12 +39,20 @@ DK_RUN  := $(DK) run --rm --privileged
 status:
 	$(DK) images
 	$(DK) ps -a
+	$(DK) stats --no-stream
+	$(DK) port $(NAME)
 
 start: deps do-start status
 stop: do-stop status
 
 bash:
 	$(DK) exec -it $(NAME) $(DK_CTL_ENTRY)
+
+log:
+	$(DK) logs $(NAME)
+
+mon:
+	$(DK) stats $(NAME)
 
 ginit: init-db
 
