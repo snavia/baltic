@@ -7,3 +7,6 @@ AliyunContainerService/log-pilot
 
 # RPC组件
 protocolbuffers/protobuf
+
+# 监控
+open-falcon/falcon-plus
