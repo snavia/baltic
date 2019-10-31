@@ -1,4 +1,4 @@
-# MySQL for Open-Falcon
+# Redis for Open-Falcon
 
 PWD := $(shell pwd)
 NAME := $(shell basename "$(PWD)")
@@ -15,13 +15,12 @@ LOG_DIR := $(PWD)/../../log/$(NAME)
 
 # 启动参数
 DK_RUN_OPT := \
-				-v $(DATA_DIR):/var/lib/mysql \
-				-v $(LOG_DIR):/var/log/mysql \
-        -e MYSQL_ROOT_PASSWORD=test123456 \
-        -p 13306:3306 \
+				-v $(DATA_DIR):/var/lib/redis \
+				-v $(LOG_DIR):/var/log/redis \
+        -p 16379:6379 \
 
 # 镜像
-DK_IMG	:= mysql:5.7
+DK_IMG	:= redis:4-alpine3.8
 
 # 入口
 DK_ENTRY := -d $(DK_IMG)
@@ -46,7 +45,7 @@ stop: do-stop status
 bash:
 	$(DK) exec -it $(NAME) $(DK_CTL_ENTRY)
 
-ginit: init-db
+ginit:
 
 
 # ####################################
@@ -55,12 +54,6 @@ ginit: init-db
 deps:
 	[ -d "$(DATA_DIR)" ] || mkdir -p "$(DATA_DIR)"
 	[ -d "$(LOG_DIR)" ] || mkdir -p "$(LOG_DIR)"
-
-init-db:
-	for x in `ls ./stub/*.sql`; do \
-		echo init mysql table $$x ...; \
-		$(DK) exec -i $(NAME) mysql -uroot -ptest123456 < "$$x"; \
-	done
 
 
 # ####################################
