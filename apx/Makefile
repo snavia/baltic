@@ -4,6 +4,9 @@
 
 FALCON := falcon-mysql falcon-redis falcon-plus falcon-dashboard
 
+DK := docker
+
+
 # ####################################
 # Dashboard AREA
 # ####################################

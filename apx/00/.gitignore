@@ -6,12 +6,13 @@ mysql/conf
 mongo/data
 redis/data
 ## ELK
-elk-6/es
-elk-6/logstash
-elk-6/kibana
-elk-7/es
+elk-7/es-standalone
+elk-7/es-plugins
 elk-7/logstash
 elk-7/kibana
+elk-7/conf/es-standalone
+elk-7/conf/es-master
+elk-7/conf/es-slave1
 ## Web
 nginx/html
 nginx/conf.d

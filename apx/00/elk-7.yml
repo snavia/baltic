@@ -1,0 +1,62 @@
+# ELK 7.x
+# https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html
+# https://hub.daocloud.io/repos/3c8808fe-6fa3-4eb0-be95-0c58434413a9
+# https://hub.qiniu.com/store/library/elasticsearch#page=detail
+
+# Dockerfile
+# https://github.com/docker-library/elasticsearch/blob/d91235c08a5a03073b918d996c125185427b25c4/5/Dockerfile
+
+
+# ####################################
+# 环境变量
+# ####################################
+# Elasticsearch
+# 集群名称: cluster.name=elasticsearch
+# 启动方式: discovery.type 
+#   - single-node(以单一节点模式启动)
+#   - ...
+# JVM: ES_JAVA_OPTS
+
+
+# ####################################
+# 文件映射
+# ####################################
+# 数据目录: /usr/share/elasticsearch/data
+# 插件目录: /usr/share/elasticsearch/plugins
+
+
+version: '3'
+services:
+  dev-elasticsearch:
+    image: elasticsearch:7.3.2
+    hostname: dev-elasticsearch
+    container_name: dev-elasticsearch
+    environment:
+      - "cluster.name=dev-es-2019"
+      - "discovery.type=single-node" # 单节点
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    volumes:
+      - ./elk-7/es-standalone:/usr/share/elasticsearch/data
+      - ./elk-7/es-plugins:/usr/share/elasticsearch/plugins
+    ports:
+      - 9200:9200
+    networks:
+      - dev-elastic
+  dev-kibana:
+    image: kibana:7.3.2
+    hostname: dev-kibana
+    container_name: dev-kibana
+    links:
+      - dev-elasticsearch:es
+      - dev-elasticsearch:elasticsearch
+    depends_on:
+      - dev-elasticsearch
+    environment:
+      - "elasticsearch.hosts=http://es:9200"
+    ports:
+      - 5601:5601
+    networks:
+      - dev-elastic
+networks:
+  dev-elastic:
+    driver: bridge

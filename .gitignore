@@ -1,6 +1,8 @@
 # Project Generated
 docker/
 log/
+backup/
+dist/
 
 # Compiled class file
 *.class
