@@ -38,7 +38,7 @@ status:
 	$(DK) images
 	$(DK) ps -a
 	$(DK) stats --no-stream
-	-$(DK) port $(NAME)
+	$(DK) port $(NAME) 2>/dev/null || true
 
 start: deps do-start status
 stop: do-stop status
@@ -48,9 +48,10 @@ bash:
 
 log:
 	$(DK) logs $(NAME)
-
 mon:
-	$(DK) stats $(NAME
+	$(DK) stats $(NAME)
+port: # 错误不忽略
+	$(DK) port $(NAME)
 
 ginit:
 
