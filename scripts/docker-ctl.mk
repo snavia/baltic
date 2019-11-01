@@ -18,7 +18,11 @@ DK	:= docker
 # ####################################
 # Dashboard AREA
 # ####################################
+status:
+
 backup: backup-imgs
+
+restore: restore-imgs
 
 
 # ####################################
@@ -31,6 +35,16 @@ backup-imgs:
 		fpath=$(BACKUP_IMG_DIR)/$${fname}.tar; \
 		echo docker save $${x} -o $${fpath}; \
 		docker save $${x} -o $${fpath}; \
+	done;
+
+
+# ####################################
+# Restore AREA
+# ####################################
+restore-imgs:
+	for x in `ls $(BACKUP_IMG_DIR)/*.tar`; do \
+		echo docker load -i "$${x}"; \
+		docker load -i "$${x}"; \
 	done;
 
 
