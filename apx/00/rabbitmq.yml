@@ -1,0 +1,37 @@
+---
+# RabbitMQ Version: 3.7 3.6
+# https://hub.qiniu.com/store/library/rabbitmq
+# https://hub.daocloud.io/repos/abd7d091-dc5e-4f20-8267-d17d845c1c36
+
+# Dockerfile
+# https://github.com/docker-library/rabbitmq/blob/b5543df2789c16d8ea1c2119484378d4c23baa6c/3.7/debian/Dockerfile
+
+
+# ####################################
+# 环境变量
+# ####################################
+# RABBITMQ_DEFAULT_USER=guest
+# RABBITMQ_DEFAULT_PASS=guest
+# RABBITMQ_DEFAULT_VHOST=
+
+
+# ####################################
+# 文件映射
+# ####################################
+# 数据目录: /var/lib/rabbitmq
+# 日志目录: /var/log/rabbitmq
+
+
+version: '3'
+services:
+  rabbitmq:
+    image: rabbitmq:3.7-management
+    hostname: dev-rabbitmq
+    container_name: dev-rabbitmq
+    restart: always
+    volumes:
+      - ./rabbitmq/data:/var/lib/rabbitmq
+      - ../../log/rabbitmq:/var/log/rabbitmq
+    ports:
+      - 55672:5672
+      - 15672:15672
