@@ -1,0 +1,9 @@
+# LOG-DIR will be auto selected by sed then create
+# LOG-DIR-BEGIN
+## 数据库
+## ELK
+## Web
+../../log/nginx
+## MQ
+../../log/rabbitmq
+# LOG-DIR-END

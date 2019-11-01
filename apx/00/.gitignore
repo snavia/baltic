@@ -1,4 +1,4 @@
-# DATA-DIR will auto be selected by sed then create
+# DATA-DIR will be auto selected by sed then create
 # DATA-DIR-BEGIN
 ## 数据库
 mongo/data
@@ -11,7 +11,8 @@ elk-7/es
 elk-7/logstash
 elk-7/kibana
 ## Web
-nginx/data
+nginx/html
+nginx/conf.d
 ## MQ
 rabbitmq/data
 # DATA-DIR-END
