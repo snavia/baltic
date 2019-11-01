@@ -1,0 +1,49 @@
+---
+# MySQL Version: 5.7
+# https://hub.qiniu.com/store/library/mysql
+# https://hub.daocloud.io/repos/fa51c1d6-9dc2-49d9-91ac-4bbfc24a1bda
+
+# Dockerfile
+# https://github.com/docker-library/mysql/blob/607b2a65aa76adf495730b9f7e6f28f146a9f95f/5.7/Dockerfile
+
+
+# ####################################
+# 环境变量
+# ####################################
+# MYSQL_ROOT_PASSWORD
+# 本变量必填，它指定了 MySQL root 的用户的密码。在刚才的例子中，该密码被设置为 my-secret-pw。
+
+# MYSQL_DATABASE
+# 本变量可选，通过该变量当 MySQL 启动时会创建一个由你指定的数据库。如果你另外又提供了一对用户名和密码（见下方），那么他将会被授予本数据库的所有权限。
+
+# MYSQL_USER, MYSQL_PASSWORD
+# 这两个变量可选，同时使用的话会创建一个新用户并设置相应的密码，该用户会被授予由 MYSQL_DATABASE 变量指定的数据库的所有权限（见上方）。只有当同时提供了这两个变量时该用户才会被创建。
+# 特别注意没有必要使用这个机制来创建 root 用户，root 用户的密码会被设置为 MYSQL_ROOT_PASSWORD 变量的值。
+
+# MYSQL_ALLOW_EMPTY_PASSWORD
+# 本变量可选，当其被设置为 yes 时将会允许当前容器中的 root 用户能够使用空密码。注意：绝对不建议将该变量设置为 yes，除非你知道自己在做什么。如果这么做的话你的 MySQL 服务将会失去保护，所有人都可以以超级用户的身份访问该 MySQL 服务。
+
+# ####################################
+# 文件映射
+# ####################################
+# 数据目录: /var/lib/mysql
+# 日志目录: /var/log/mysql
+# 配置子目录: /etc/mysql/conf.d
+
+
+version: '3'
+services:
+  mysql:
+    image: mysql:5.7
+    hostname: dev-mysql
+    container_name: dev-mysql
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    restart: always
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+      - ./mysql/conf:/etc/mysql/conf.d
+      - ../../log/mysql:/var/log/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: cn1949
+    ports:
+      - 53306:3306

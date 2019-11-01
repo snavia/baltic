@@ -1,6 +1,8 @@
 # DATA-DIR will be auto selected by sed then create
 # DATA-DIR-BEGIN
-## 数据库
+## 数据库/缓存
+mysql/data
+mysql/conf
 mongo/data
 redis/data
 ## ELK

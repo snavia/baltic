@@ -10,12 +10,14 @@ DATA_SUF = $(shell date +"%Y.%m.%d.%H.%M.%S")
 # Congfigure AREA 配置参数区域
 # ####################################
 DATA_DIR := $(PWD)/data
+CONF_DIR := $(PWD)/conf
 LOG_DIR := $(PWD)/../../log/$(NAME)
 
 
 # 启动参数
 DK_RUN_OPT := \
 				-v $(DATA_DIR):/var/lib/mysql \
+				-v $(CONF_DIR):/etc/mysql/conf.d \
 				-v $(LOG_DIR):/var/log/mysql \
         -e MYSQL_ROOT_PASSWORD=test123456 \
         -p 13306:3306 \
@@ -63,6 +65,7 @@ ginit: init-db
 # ####################################
 deps:
 	[ -d "$(DATA_DIR)" ] || mkdir -p "$(DATA_DIR)"
+	[ -d "$(CONF_DIR)" ] || mkdir -p "$(CONF_DIR)"
 	[ -d "$(LOG_DIR)" ] || mkdir -p "$(LOG_DIR)"
 
 init-db:

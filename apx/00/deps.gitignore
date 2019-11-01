@@ -1,6 +1,7 @@
 # LOG-DIR will be auto selected by sed then create
 # LOG-DIR-BEGIN
 ## 数据库
+../../log/mysql
 ## ELK
 ## Web
 ../../log/nginx
