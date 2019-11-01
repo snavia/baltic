@@ -11,6 +11,7 @@ DEST_DIR := ../../docker/open-falcon
 DEST_MYSQL_SCP_DIR	:= ../../apx/falcon-mysql/stub
 
 build:
+	cd $(SRC_DIR) && go mod init && cd -
 	make -C $(SRC_DIR)
 
 install: build

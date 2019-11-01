@@ -1,0 +1,19 @@
+# DATA-DIR will auto be selected by sed then create
+# DATA-DIR-BEGIN
+## 数据库
+mongo/data
+redis/data
+## ELK
+elk-6/es
+elk-6/logstash
+elk-6/kibana
+elk-7/es
+elk-7/logstash
+elk-7/kibana
+## Web
+nginx/data
+## MQ
+rabbitmq/data
+# DATA-DIR-END
+
+# DATA-OTHER

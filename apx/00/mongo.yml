@@ -1,0 +1,12 @@
+---
+# Mongo Version: 2.7.6, 3.5, 4.2.1
+
+version: '3'
+services:
+  mongo:
+    image: mongo:3.5
+    container_name: dev-mongo
+    volumes:
+      - ./mongo/data:/data/db
+    ports:
+      - 57017:27017
