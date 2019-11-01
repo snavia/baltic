@@ -1,0 +1,22 @@
+---
+# Redis Version: 4.0-alpine, 4-alpine, 4, apline, latest
+# https://hub.qiniu.com/store/library/redis#page=detail
+# https://hub.daocloud.io/repos/beb958f9-ffb6-4f68-817b-c17e1ff476c3
+
+# Dockerfile
+# https://github.com/docker-library/redis/blob/d53b982b387634092c6f11069401679034054ecb/4.0/alpine/Dockerfile
+
+# start with persistent storage
+# command: redis-server --appendonly yes
+
+
+version: '3'
+services:
+  nginx:
+    image: redis:4.0-alpine
+    container_name: dev-redis
+    command: redis-server --appendonly yes
+    volumes:
+      - ./redis/data:/data # 数据文件目录
+    ports:
+      - 56379:6379

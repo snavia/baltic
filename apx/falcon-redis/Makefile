@@ -14,16 +14,15 @@ LOG_DIR := $(PWD)/../../log/$(NAME)
 
 # 启动参数
 DK_RUN_OPT := \
-				-v $(DATA_DIR):/var/lib/redis \
-				-v $(LOG_DIR):/var/log/redis \
+				-v $(DATA_DIR):/data \
         -p 16379:6379 \
 
 # 镜像
 DK_IMG	:= redis:4-alpine3.8
 
 # 入口
-DK_ENTRY := -d $(DK_IMG)
-DK_CTL_ENTRY := /bin/bash
+DK_ENTRY := -d $(DK_IMG) redis-server --appendonly yes
+DK_CTL_ENTRY := sh
 
 # 固定参数部分(根据需要可改为sudo docker)
 # DK_RUN  := $(DK) run --rm --privileged -v/etc/localtime:/etc/localtime
