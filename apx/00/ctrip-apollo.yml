@@ -1,0 +1,38 @@
+---
+# Apollo Version: 
+# https://github.com/ctripcorp/apollo/wiki/Apollo-Quick-Start-Docker部署
+
+
+version: '3'
+services:
+
+  dev-ctrip-apollo:
+    image: nobodyiam/apollo-quick-start
+    container_name: dev-ctrip-apollo
+    depends_on:
+      - dev-ctrip-apollo-db
+    ports:
+      - "58080:8080"
+      - "58070:8070"
+    links:
+      - dev-ctrip-apollo-db
+    networks:
+      - dev-ctrip-apollor
+
+  dev-ctrip-apollo-db:
+    image: mysql:5.7
+    container_name: dev-ctrip-apollo-db
+    environment:
+      TZ: Asia/Shanghai
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    ports:
+      - "53306:3306"
+    volumes:
+      - ./ctrip-apollo/stub/sql:/docker-entrypoint-initdb.d # 初始化once
+      - ./ctrip-apollo/mysql-data:/var/lib/mysql
+    networks:
+      - dev-ctrip-apollor
+
+networks:
+  dev-ctrip-apollor:
+    driver: bridge

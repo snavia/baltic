@@ -10,10 +10,10 @@ SRC_DIR := ../../3rd/open-falcon/falcon-plus
 DEST_DIR := ../../docker/open-falcon
 DEST_MYSQL_SCP_DIR	:= ../../apx/falcon-mysql/stub
 
-build:
-	cd $(SRC_DIR) && go mod init && cd -
-	make -C $(SRC_DIR)
 
+# ####################################
+# Dashboard AREA
+# ####################################
 install: build
 	[ -d "$(DEST_DIR)" ] || mkdir -p "$(DEST_DIR)"
 	rsync -avP $(SRC_DIR)/bin $(DEST_DIR)/
@@ -25,3 +25,15 @@ install: build
 	rsync -avP $(SRC_DIR)/logo.png $(DEST_DIR)/
 	[ -d "$(DEST_MYSQL_SCP_DIR)" ] || mkdir -p "$(DEST_MYSQL_SCP_DIR)"
 	rsync -avP $(SRC_DIR)/scripts/mysql/db_schema/ $(DEST_MYSQL_SCP_DIR)/
+
+
+build:
+	cd $(SRC_DIR) && go mod init && cd -
+	make -C $(SRC_DIR)
+
+
+# ####################################
+# Utils AREA
+# ####################################
+clean:
+	rm -rvf *.bak *.log

@@ -16,6 +16,19 @@ status: status-falcon
 log: log-falcon
 port: port-falcon
 
+ginit: init-data-dir
+
+
+# ####################################
+# Init AREA
+# ####################################
+init-data-dir:
+	# 注: 此处若包装函数，makefile执行，会报错
+	for x in $(shell sed -n "/# DATA-DIR-BEGIN/,/# DATA-DIR-END/p" .gitignore | grep -v "#"); do \
+		echo "verify dir $$x"; \
+		[ -d "$$x" ] || mkdir -p "$$x"; \
+	done;
+
 
 # ####################################
 # #x1. Open-Falcon AREA

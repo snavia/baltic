@@ -41,7 +41,8 @@ status-k8s:
 # ####################################
 build-3rd: update-3rd
 	# make -C hack/AliyunContainerService -f log-pilot.mk install
-	make -C hack/open-falcon -f falcon-plus.mk install
+	# make -C hack/open-falcon -f falcon-plus.mk install
+	make -C hack/mirrors -f ctrip-apollo.mk install
 
 
 # ####################################
