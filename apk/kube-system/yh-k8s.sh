@@ -207,11 +207,16 @@ function config() {
 # ###############################
 function init_centos_com() {
   # 重置源
-  rm -rf /var/cache/yum && yum clean all && yum makecache \
-    && ls -lhrt /etc/yum.repos.d/ \
-    && rm -rvf /etc/yum.repos.d/* \
-    && curl http://mirrors.163.com/.help/CentOS7-Base-163.repo -o /etc/yum.repos.d/CentOS7-Base-163.repo \
-    && yum -y update
+  # rm -rf /var/cache/yum && yum clean all && yum makecache \
+  #  && ls -lhrt /etc/yum.repos.d/ \
+  #  && rm -rvf /etc/yum.repos.d/* \
+  #  && curl http://mirrors.163.com/.help/CentOS7-Base-163.repo -o /etc/yum.repos.d/CentOS7-Base-163.repo \
+  #  && yum -y update
+  curl http://mirrors.163.com/.help/CentOS7-Base-163.repo -o /etc/yum.repos.d/CentOS7-Base-163.repo
+  yum -y update
+
+  # deps
+  yum install -y sudo firewalld
 
   # 关闭selinux
   [ -r /etc/selinux/config ] && grep "^SELINUX=enforcing" >/dev/null /etc/selinux/config && sed -i '/^SELINUX=/c\\SELINUX=permissive' /etc/selinux/config
@@ -246,9 +251,10 @@ function install_docker() {
   [ ! -d /var/lib/docker ] && ln -s /home/docker /var/lib/docker
   # docker 安装包
   # yum remove docker  docker-common docker-selinux docker-engine
-  yum install -y yum-utils device-mapper-persistent-data lvm2
-  yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-  yum install -y docker-ce
+  # yum install -y yum-utils device-mapper-persistent-data lvm2
+  # yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+  # yum install -y docker-ce
+  which docker || curl -sSL https://get.daocloud.io/docker | sh
   # docker 启动
   systemctl start docker
   # docker group
