@@ -1,4 +1,4 @@
-# K8s open-falcon 统一管理脚本
+# K8s kube-system 统一管理脚本
 # Version: 20191103
 
 
@@ -15,8 +15,9 @@ PWD	:= $(shell pwd)
 # 	UNIT_PORTAL: 观察视角, 查看集群状态
 # ####################################
 GROUP := $(shell basename $(PWD))
-UNITS := mysql redis open-falcon-plus open-falcon-dashboard
-UNIT_PORTAL := open-falcon-dashboard
+UNITS := k8s-dashboard k8s-admin
+UNIT_PORTAL := k8s-dashboard
+CTL := kubectl -n $(GROUP)
 
 
 # ####################################
@@ -29,8 +30,7 @@ DK			:= docker
 # ####################################
 # Dashboard AREA
 # ####################################
-status:
-	$(K8S_MK) GROUP=$(GROUP) UNIT=$(UNIT_PORTAL) $@
+status: status-all
 info:
 	$(K8S_MK) GROUP=$(GROUP) UNIT=$(UNIT_PORTAL) $@
 start-all:
@@ -38,18 +38,43 @@ start-all:
 stop-all:
 	$(call doBatExec,stop)
 
-ginit: import-mysql-baseline
+# 全局初始化、逆初始化、重置
+ginit: init-master init-cluster-user init-network 
+gfini:
+greset:
+
+
+# ####################################
+# Status AREA
+# ####################################
+status-all:
+	kubectl get nodes --all-namespaces
+	kubectl get pods --all-namespaces
+	kubectl get svc --all-namespaces
+	kubectl get deployments --all-namespaces
+
+
+# ####################################
+# Info/Query AREA
+# ####################################
+token:
+	$(CTL) describe secret "$(shell $(CTL) get secret | grep -o '^dashboard-admin-token-[a-z|0-9|-]*')"
 
 
 # ####################################
 # Init AREA
 # ####################################
-import-mysql-baseline:
-	mysql_pod=$(shell kubectl get pods -n $(GROUP) | grep mysql | awk '{print $$1}') && \
-	for x in `ls ./stub/*.sql`; do \
-		echo init mysql table $${x} ...; \
-		kubectl -n $(GROUP) exec $${mysql_pod} -- mysql -uroot -p123456 < $${x}; \
-	done
+init-master:
+	# 初始化
+	kubeadm init --pod-network-cidr=10.244.0.0/16 --ignore-preflight-errors=NumCPU
+
+init-cluster-user:
+	mkdir -p ${HOME}/.kube
+	sudo cp -i /etc/kubernetes/admin.conf ${HOME}/.kube/config
+	sudo chown $(shell id -u):$(shell id -g) ${HOME}/.kube/config
+
+init-network:
+	kubectl apply -f yml/kube-flannel.y
 
 
 # ####################################
