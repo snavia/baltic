@@ -1,0 +1,55 @@
+---
+# CentOS 测试 集群
+# Version: 20191103
+
+
+version: '3'
+
+services:
+
+  test-m1:
+    image: centos:7
+    hostname: test-m1
+    container_name: test-m1
+    command: /usr/sbin/init
+    privileged: true
+    volumes:
+      - ./os-c7-cluster/test-m1:/data # 数据目录
+      - ../../:/project # 本项目目录
+    # links:
+    #   - test-n1:node1
+    #   - test-n2:node2
+    ports:
+      - "42201:22"
+
+  # test-n1:
+  #   image: centos:7
+  #   hostname: test-n1
+  #   container_name: test-n1
+  #   command: /usr/sbin/init
+  #   volumes:
+  #     - ./os-c7-cluster/test-m1:/data # 数据目录
+  #     - ../../:/project # 本项目目录
+  #   links:
+  #     - test-m1:master1
+  #     - test-n2:node2
+  #   ports:
+  #     - "42211:22"
+
+  # test-n2:
+  #   image: centos:7
+  #   hostname: test-n2
+  #   container_name: test-n2
+  #   command: /usr/sbin/init
+  #   volumes:
+  #     - ./os-c7-cluster/test-m1:/data # 数据目录
+  #     - ../../:/project # 本项目目录
+  #   links:
+  #     - test-m1:master1
+  #     - test-n1:node1
+  #   ports:
+  #     - "42212:22"
+
+networks:
+  test-os-c7-cluster:
+    driver: bridge

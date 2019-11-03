@@ -206,6 +206,13 @@ function config() {
 # Install Area
 # ###############################
 function init_centos_com() {
+  # 重置源
+  rm -rf /var/cache/yum && yum clean all && yum makecache \
+    && ls -lhrt /etc/yum.repos.d/ \
+    && rm -rvf /etc/yum.repos.d/* \
+    && curl http://mirrors.163.com/.help/CentOS7-Base-163.repo -o /etc/yum.repos.d/CentOS7-Base-163.repo \
+    && yum -y update
+
   # 关闭selinux
   [ -r /etc/selinux/config ] && grep "^SELINUX=enforcing" >/dev/null /etc/selinux/config && sed -i '/^SELINUX=/c\\SELINUX=permissive' /etc/selinux/config
   getenforce | grep Enforcing >/dev/null && setenforce 0

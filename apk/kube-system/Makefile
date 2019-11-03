@@ -62,6 +62,18 @@ token:
 
 
 # ####################################
+# Install AREA
+# ####################################
+install-master:
+	./yh-k8s.sh install
+	./yh-k8s.sh config master
+
+install-node:
+	./yh-k8s.sh install
+	./yh-k8s.sh config node
+
+
+# ####################################
 # Init AREA
 # ####################################
 init-master:
