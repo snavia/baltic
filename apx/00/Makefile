@@ -7,10 +7,10 @@
 #		环境配置: env-dev.mk, env-prod.mk
 # ####################################
 # 加载环境变量
-ifndef prod
-	-include ../env-dev.mk
-else
+ifdef prod
 	-include ../env-prod.mk
+else
+	-include ../env-dev.mk
 endif
 
 

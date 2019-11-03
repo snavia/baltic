@@ -1,7 +1,8 @@
 ---
 # Apollo Version: 
 # https://github.com/ctripcorp/apollo/wiki/Apollo-Quick-Start-Docker部署
-
+# 数据映射，老报错误，暂时移除
+# - ./ctrip-apollo/mysql-data:/var/lib/mysql
 
 version: '2'
 services:
