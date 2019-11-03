@@ -35,6 +35,19 @@ start-all:
 stop-all:
 	$(call doBatExec,stop)
 
+ginit: import-mysql-baseline
+
+
+# ####################################
+# Init AREA
+# ####################################
+import-mysql-baseline:
+	mysql_pod=$(shell kubectl get pods -n $(GROUP) | grep mysql | awk '{print $$1}') && \
+	for x in `ls ./stub/*.sql`; do \
+		echo init mysql table $${x} ...; \
+		kubectl -n $(GROUP) exec $${mysql_pod} -- mysql -uroot -p123456 < $${x}; \
+	done
+
 
 # ####################################
 # Utils AREA
