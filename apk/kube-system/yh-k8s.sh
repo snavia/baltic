@@ -212,8 +212,8 @@ function init_centos_com() {
   #  && rm -rvf /etc/yum.repos.d/* \
   #  && curl http://mirrors.163.com/.help/CentOS7-Base-163.repo -o /etc/yum.repos.d/CentOS7-Base-163.repo \
   #  && yum -y update
-  curl http://mirrors.163.com/.help/CentOS7-Base-163.repo -o /etc/yum.repos.d/CentOS7-Base-163.repo
-  yum -y update
+  # curl http://mirrors.163.com/.help/CentOS7-Base-163.repo -o /etc/yum.repos.d/CentOS7-Base-163.repo
+  # yum -y update
 
   # deps
   yum install -y sudo firewalld
@@ -250,11 +250,11 @@ function install_docker() {
   [ ! -d /home/docker ] && mkdir -p /home/docker
   [ ! -d /var/lib/docker ] && ln -s /home/docker /var/lib/docker
   # docker 安装包
-  # yum remove docker  docker-common docker-selinux docker-engine
-  # yum install -y yum-utils device-mapper-persistent-data lvm2
-  # yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-  # yum install -y docker-ce
-  which docker || curl -sSL https://get.daocloud.io/docker | sh
+  yum remove docker  docker-common docker-selinux docker-engine
+  yum install -y yum-utils device-mapper-persistent-data lvm2
+  yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+  yum install -y docker-ce
+  # which docker || curl -sSL https://get.daocloud.io/docker | sh
   # docker 启动
   systemctl start docker
   # docker group

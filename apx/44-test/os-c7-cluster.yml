@@ -21,6 +21,8 @@ services:
     #   - test-n2:node2
     ports:
       - "42201:22"
+    networks:
+      - test-os-c7-cluster
 
   # test-n1:
   #   image: centos:7
