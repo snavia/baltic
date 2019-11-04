@@ -261,6 +261,9 @@ function install_docker() {
   GDOCKER=$(cat /etc/group | grep -io "docker[a-z]*")
   echo "GROUP DOCKER: $GDOCKER"
   # cat /etc/group | grep "$GDOCKER" | grep "$R_SUDO_USER" || gpasswd -a "$R_SUDO_USER" $GDOCKER
+  # install docker-compose
+  curl -L https://get.daocloud.io/docker/compose/releases/download/1.22.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+  chmod +x /usr/local/bin/docker-compose
 }
 
 function install_k8s() {

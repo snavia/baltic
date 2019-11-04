@@ -86,7 +86,7 @@ init-cluster-user:
 	sudo chown $(shell id -u):$(shell id -g) ${HOME}/.kube/config
 
 init-network:
-	kubectl apply -f yml/kube-flannel.y
+	kubectl apply -f yml/kube-flannel.yml
 
 
 # ####################################
