@@ -6,11 +6,6 @@ falcon-redis/data
 falcon-plus/data
 falcon-dashboard/data
 
-# 测试环境
-44-test/os-c7-cluster/test-m1
-44-test/os-c7-cluster/test-n1
-44-test/os-c7-cluster/test-n2
-
 # DATA-DIR-END
 
 

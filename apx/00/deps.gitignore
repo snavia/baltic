@@ -1,10 +1,19 @@
 # LOG-DIR will be auto selected by sed then create
 # LOG-DIR-BEGIN
+
+## ZooKeeper
+../../log/zk/zoo1
+../../log/zk/zoo2
+../../log/zk/zoo3
+
 ## 数据库
 ../../log/mysql
+
 ## ELK
 ## Web
 ../../log/nginx
+
 ## MQ
 ../../log/rabbitmq
+
 # LOG-DIR-END

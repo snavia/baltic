@@ -17,6 +17,8 @@ log: log-falcon
 port: port-falcon
 
 ginit: init-data-dir
+	make -C 00 ginit
+	make -C 44-test ginit
 
 
 # ####################################

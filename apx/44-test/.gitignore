@@ -1,0 +1,8 @@
+# DATA-DIR-BEGIN
+
+# 测试环境
+os-c7-cluster/test-m1
+os-c7-cluster/test-n1
+os-c7-cluster/test-n2
+
+# DATA-DIR-END

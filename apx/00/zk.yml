@@ -1,0 +1,74 @@
+---
+# ZooKeepe Version: 3.4, 3.4.11
+# https://hub.qiniu.com/store/library/zookeeper#page=tag
+# FileVersion: 20191104
+
+# Dockerfile
+# https://github.com/31z4/zookeeper-docker/blob/af9250c7208973b74ed0ef6ca61052bdf853ce20/3.4.11/Dockerfile
+
+
+# ####################################
+# 环境变量
+# ####################################
+
+
+# ####################################
+# 文件映射
+# ####################################
+
+
+version: '3'
+
+services:
+  dev-zoo1:
+    image: zookeeper:3.4
+    restart: always
+    hostname: dev-zoo1
+    container_name: dev-zoo1
+    ports:
+      - 2181:2181
+    volumes:
+      - ./zk/zoo1:/data
+      - ../../log/zk/zoo1:/datalog
+    environment:
+      ZOO_MY_ID: 1
+      ZOO_SERVERS: server.1=dev-zoo1:2888:3888 server.2=dev-zoo2:2888:3888 server.3=dev-zoo3:2888:3888
+    networks:
+      - dev-zk-cluster
+
+  dev-zoo2:
+    image: zookeeper:3.4
+    restart: always
+    hostname: dev-zoo2
+    container_name: dev-zoo2
+    ports:
+      - 2182:2181
+    volumes:
+      - ./zk/zoo2:/data
+      - ../../log/zk/zoo2:/datalog
+    environment:
+      ZOO_MY_ID: 2
+      ZOO_SERVERS: server.1=dev-zoo1:2888:3888 server.2=dev-zoo2:2888:3888 server.3=dev-zoo3:2888:3888
+    networks:
+      - dev-zk-cluster
+
+  dev-zoo3:
+    image: zookeeper:3.4
+    restart: always
+    hostname: dev-zoo3
+    container_name: dev-zoo3
+    ports:
+      - 2183:2181
+    volumes:
+      - ./zk/zoo3:/data
+      - ../../log/zk/zoo3:/datalog
+    environment:
+      ZOO_MY_ID: 3
+      ZOO_SERVERS: server.1=dev-zoo1:2888:3888 server.2=dev-zoo2:2888:3888 server.3=dev-zoo3:2888:3888
+    networks:
+      - dev-zk-cluster
+
+
+networks:
+  dev-zk-cluster:
+    driver: bridge

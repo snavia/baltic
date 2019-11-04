@@ -1,6 +1,11 @@
 # DATA-DIR will be auto selected by sed then create
 # DATA-DIR-BEGIN
 
+## 协调
+zk/zoo1
+zk/zoo2
+zk/zoo3
+
 ## 数据库/缓存
 mysql/data
 mysql/conf
