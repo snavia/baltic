@@ -38,7 +38,10 @@ start-all:
 stop-all:
 	$(call doBatExec,stop)
 
-ginit: import-mysql-baseline
+
+ginit:
+	$(K8S_MK) GROUP=$(GROUP) UNIT=$(UNIT_PORTAL) $@
+ginit-post: import-mysql-baseline
 
 
 # ####################################
