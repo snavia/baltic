@@ -41,8 +41,8 @@ services:
         hard: -1
     volumes:
       - ./data/${ES_01}:/usr/share/elasticsearch/data
-    # ports:
-    #   - ${DBG_ES_PORT}:9200
+    ports:
+      - ${DBG_ES_PORT}:9200
     networks:
       - ${NETWORK_MAIN}
   es02:
@@ -113,6 +113,8 @@ services:
     volumes:
       - ./conf/nginx/:/etc/nginx/conf.d/
     command: ${NGINX_CMD}
+    links:
+      - kibana
     ulimits:
       nproc: 655350
     networks:
