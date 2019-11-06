@@ -1,0 +1,98 @@
+---
+# Name: NAME
+# Version: 6.8.4, 7.3.2 7.4.2... 
+# FileVersion: 20191106
+# Ref: 
+#   - https://www.docker.elastic.co/
+#   - https://www.elastic.co/guide/en/elasticsearch/reference/7.4/docker.html
+
+# Dockerfile
+# 
+
+
+# ####################################
+# 环境变量
+# ####################################
+
+
+# ####################################
+# 文件映射
+# ####################################
+# conf/xxbeat.yml 为“镜像”中缺省的配置，
+# 可以按需扩展
+
+
+version: '3'
+services:
+
+  auditbeat:
+    image: ${ABEAT_IMG}
+    command: ${ABEAT_CMD}
+    user: root
+    environment:
+      - setup.kibana.host=${KIBANA_HOST}
+      - ELASTICSEARCH_HOSTS
+    privileged: true  
+    pid: "host"
+    volumes:
+      - ${PWD}/conf/auditbeat${BEAT_YAML_EXT}:/usr/share/auditbeat/auditbeat.yml
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - elastic
+
+  metricbeat:
+    image: ${MBEAT_IMG}
+    # command: ${COM_BEAT_CMD_OPT}
+    environment:
+      - setup.kibana.host=${KIBANA_HOST}
+      - ELASTICSEARCH_HOSTS
+    privileged: true  
+    volumes:
+      - ${PWD}/conf/metricbeat${BEAT_YAML_EXT}:/usr/share/metricbeat/metricbeat.yml
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro
+      - /proc:/hostfs/proc:ro
+      - /:/hostfs:ro
+    networks:
+      - elastic
+  
+  # heartbeat:
+  #   image: ${HBEAT_IMG} 
+  #   command: ${COM_BEAT_CMD_OPT}
+  #   environment:
+  #     - setup.kibana.host=${KIBANA_HOST}
+  #     - ELASTICSEARCH_HOSTS
+  #   # volumes:
+  #   #   - ${PWD}/conf/heartbeat${BEAT_YAML_EXT}:/usr/share/heartbeat/heartbeat.yml
+  #   networks:
+  #     - elastic
+  
+  packetbeat:
+    image: ${PBEAT_IMG}
+    command: ${COM_BEAT_CMD_OPT}
+    environment:
+      - setup.kibana.host=${KIBANA_HOST}
+      - ELASTICSEARCH_HOSTS
+    privileged: true
+    volumes:
+      - ${PWD}/conf/packetbeat${BEAT_YAML_EXT}:/usr/share/packetbeat/packetbeat.yml
+    networks:
+      - elastic
+  
+  filebeat:
+    image: ${FBEAT_IMG}
+    command: --strict.perms=false
+    environment:
+      - setup.kibana.host=${KIBANA_HOST}
+      - ELASTICSEARCH_HOSTS
+    ports:
+      - 9000:9000
+    volumes:
+      - ${PWD}/conf/filebeat${BEAT_YAML_EXT}:/usr/share/filebeat/filebeat.yml
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - elastic
+
+networks:
+  elastic:

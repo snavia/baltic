@@ -32,9 +32,18 @@ init-dir:
 # Mini AREA
 # ####################################
 start-mini:
-	docker-compose -f elastic-mini.yml up
+	docker-compose -f elastic-mini.yml up -d
 stop-mini:
-	docker-compose -f elastic-mini.yml down
+	docker-compose -f elastic-mini.yml down -d
+
+
+# ####################################
+# Beats AREA
+# ####################################
+start-beats:
+	docker-compose -f elastic-beats.yml up
+stop-beats:
+	docker-compose -f elastic-beats.yml down -d
 
 
 # ####################################

@@ -1,8 +1,9 @@
 ---
 # Name: Elastic Stack 
-# Version: https://www.docker.elastic.co/
+# Version: 6.8.4, 7.3.2 7.4.2...
 # FileVersion: 20191106
 # Ref: 
+#   - https://www.docker.elastic.co
 #   - https://www.elastic.co/guide/en/elasticsearch/reference/7.4/docker.html
 
 
