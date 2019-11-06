@@ -5,6 +5,7 @@
 # Ref: 
 #   - https://www.docker.elastic.co
 #   - https://www.elastic.co/guide/en/elasticsearch/reference/7.4/docker.html
+#   - https://www.elastic.co/guide/en/logstash/current/docker-config.html
 
 
 # Dockerfile

@@ -1,0 +1,67 @@
+---
+# Name: Elastic Stack 
+# Version: https://www.docker.elastic.co/
+# FileVersion: 20191106
+# Ref: 
+#   - https://www.elastic.co/guide/en/elasticsearch/reference/7.4/docker.html
+
+
+# Dockerfile
+# 
+
+
+# ####################################
+# 环境变量
+# ####################################
+
+
+
+# ####################################
+# 文件映射
+# ####################################
+
+
+version: '3'
+services:
+
+  apm-server:
+    image: ${APM_SERVER_IMG}
+    hostname: apm-server
+    container_name: apm-server
+    command: --strict.perms=false
+    ports:
+      - 8200:8200
+      - 8201:8200
+    environment:
+      - apm-server.host=0.0.0.0
+      - setup.kibana.host=${KIBANA_HOST}
+      - output.elasticsearch.hosts=${ELASTICSEARCH_HOSTS}
+    volumes:
+      - ${PWD}/conf/apm-server.yml:/usr/share/apm-server/apm-server.yml
+    networks:
+      - elastic
+
+  app-search:
+    image: ${APP_SEARCH_IMG}
+    hostname: app-search
+    container_name: app-search
+    ports:
+      - 3002:3002
+    environment:
+      secret_session_key: supersecretsessionkey
+      elasticsearch.host: http://${ES_01}:9200/
+      allow_es_settings_modification: "true"
+    # yml配置，已在环境变量中控制
+    # volumes:
+    #   - ${PWD}/conf/app-search.yml:/usr/share/app-search/config/app-search.yml
+    networks:
+      - elastic
+
+
+networks:
+  elastic:
+
+
+# ####################################
+# FAQ
+# ####################################

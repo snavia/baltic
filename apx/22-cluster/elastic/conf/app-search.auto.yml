@@ -1,0 +1,7 @@
+# 20191106
+# 温馨提示: 这个文件，暂时不用bind，因为会随配置变化哟.
+
+allow_es_settings_modification: true
+app_search.listen_host: 0.0.0.0
+elasticsearch.host: http://es01:9200/
+secret_session_key: supersecretsessionkey

@@ -10,7 +10,9 @@ ES_URL_BASE := http://$(SVC_HOST):9200
 # ####################################
 # Dashboard AREA
 # ####################################
-start:
+start: start-mini start-beats start-other
+stop: stop-other stop-beats stop-mini
+
 
 test: test-core
 
@@ -34,16 +36,25 @@ init-dir:
 start-mini:
 	docker-compose -f elastic-mini.yml up -d
 stop-mini:
-	docker-compose -f elastic-mini.yml down -d
+	docker-compose -f elastic-mini.yml down
 
 
 # ####################################
 # Beats AREA
 # ####################################
 start-beats:
-	docker-compose -f elastic-beats.yml up
+	docker-compose -f elastic-beats.yml up -d
 stop-beats:
-	docker-compose -f elastic-beats.yml down -d
+	-docker-compose -f elastic-beats.yml down
+
+
+# ####################################
+# Other AREA
+# ####################################
+start-other:
+	docker-compose -f elastic-other.yml up -d
+stop-other:
+	-docker-compose -f elastic-other.yml down
 
 
 # ####################################
