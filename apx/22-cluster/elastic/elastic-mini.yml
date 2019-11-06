@@ -13,6 +13,8 @@
 # ####################################
 # 环境变量
 # ####################################
+# kibana
+#   elasticsearch.hosts=http://es:9200 -- 未生效
 
 
 # ####################################
@@ -23,35 +25,35 @@
 version: '2.2'
 services:
   es01:
-    image: elasticsearch:7.3.2
-    hostname: es01
-    container_name: es01
+    image: ${ES_IMG}
+    hostname: ${ES_01}
+    container_name: ${ES_01}
     environment:
-      - node.name=es01
-      - cluster.name=es-docker-cluster
-      - discovery.seed_hosts=es02,es03
-      - cluster.initial_master_nodes=es01,es02,es03
+      - node.name=${ES_01}
+      - cluster.name=${CLUSTER_NAME}
+      - discovery.seed_hosts=${ES_02},${ES_03}
+      - cluster.initial_master_nodes=${MASTER_NODES}
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - ES_JAVA_OPTS
     ulimits:
       memlock:
         soft: -1
         hard: -1
     volumes:
-      - ./data/es01:/usr/share/elasticsearch/data
-    ports:
-      - 9200:9200
+      - ./data/${ES_01}:/usr/share/elasticsearch/data
+    # ports:
+    #   - ${DBG_ES_PORT}:9200
     networks:
-      - elastic
+      - ${NETWORK_MAIN}
   es02:
-    image: elasticsearch:7.3.2
-    hostname: es02
-    container_name: es02
+    image: ${ES_IMG}
+    hostname: ${ES_02}
+    container_name: ${ES_02}
     environment:
-      - node.name=es02
-      - cluster.name=es-docker-cluster
-      - discovery.seed_hosts=es01,es03
-      - cluster.initial_master_nodes=es01,es02,es03
+      - node.name=${ES_02}
+      - cluster.name=${CLUSTER_NAME}
+      - discovery.seed_hosts=${ES_01},${ES_03}
+      - cluster.initial_master_nodes=${MASTER_NODES}
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ulimits:
@@ -59,71 +61,63 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - ./data/es02:/usr/share/elasticsearch/data
+      - ./data/${ES_02}:/usr/share/elasticsearch/data
     networks:
-      - elastic
+      - ${NETWORK_MAIN}
   es03:
-    image: elasticsearch:7.3.2
-    hostname: es03
-    container_name: es03
+    image: ${ES_IMG}
+    hostname: ${ES_03}
+    container_name: ${ES_03}
     environment:
-      - node.name=es03
-      - cluster.name=es-docker-cluster
-      - discovery.seed_hosts=es01,es02
-      - cluster.initial_master_nodes=es01,es02,es03
+      - node.name=${ES_03}
+      - cluster.name=${CLUSTER_NAME}
+      - discovery.seed_hosts=${ES_01},${ES_02}
+      - cluster.initial_master_nodes=${MASTER_NODES}
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - ES_JAVA_OPTS
     ulimits:
       memlock:
         soft: -1
         hard: -1
     volumes:
-      - ./data/es03:/usr/share/elasticsearch/data
+      - ./data/${ES_03}:/usr/share/elasticsearch/data
     networks:
-      - elastic
+      - ${NETWORK_MAIN}
 
   kibana:
-    image: kibana:7.3.2
+    image: ${KIBANA_IMG}
     hostname: kibana
     container_name: kibana
-    # environment:
-    #   - "elasticsearch.hosts=http://es:9200"
-    ports:
-      - 5601:5601
+    environment:
+      SERVER_NAME: localhost
+    # ports:
+    #   - ${DBG_KIBANA_PORT}:5601
     volumes:
       - ./conf/kibana.yml:/usr/share/kibana/config/kibana.yml
       - ./logs:/var/log
     links:
-      - es01
-      - es02
-      - es03
+      - ${ES_01}
+      - ${ES_02}
+      - ${ES_03}
     ulimits:
       memlock:
         soft: -1
         hard: -1
     networks:
-      - elastic
+      - ${NETWORK_MAIN}
 
   nginx:
-    image: nginx:latest
+    image: ${NGINX_IMG}
     ports:
-      - 18081:80
+      - ${INGRESS_PORT}:80
     volumes:
       - ./conf/nginx/:/etc/nginx/conf.d/
-    command: /bin/bash -c "nginx -g 'daemon off;'"
+    command: ${NGINX_CMD}
     ulimits:
       nproc: 655350
     networks:
-      - elastic
-      - ingress
-
-# volumes:
-#   data01:
-#     driver: local
-#   data02:
-#     driver: local
-#   data03:
-#     driver: local
+      - ${NETWORK_MAIN}
+      - ${NETWORK_INGRESS}
 
 networks:
   elastic:
