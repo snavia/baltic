@@ -78,20 +78,6 @@ verify-app:
 
 
 # ####################################
-# #x. Mongo AREA
-# ####################################
-start-mongo:
-	$(call doExecByCompose,mongo,up,$(START_OPT))
-stop-mongo:
-	$(call doExecByCompose,mongo,down)
-log-mongo:
-	$(call doExecByCompose,mongo,logs)
-status-mongo:
-	$(call doExecByCompose,mongo,port,mongo 27017)
-	$(call doExecByCompose,mongo,top)
-
-
-# ####################################
 # Spec AREA
 # ####################################
 

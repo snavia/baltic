@@ -6,3 +6,6 @@ mirrors/prometheus
 
 # 配置中心
 mirrors/ctrip-apollo
+
+# 数据协议
+mirrors/protobuf

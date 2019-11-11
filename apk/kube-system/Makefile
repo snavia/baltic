@@ -10,9 +10,9 @@ PWD	:= $(shell pwd)
 
 # ####################################
 # 外部参数 AREA
-#		GROUP: 对应一个 目录 以及 namespace
-#		UNITS: 对应一组 *.yml, *.prod.yml
-# 	UNIT_PORTAL: 观察视角, 查看集群状态
+# GROUP: 对应一个 目录 以及 namespace
+#   UNITS: 对应一组 *.yml, *.prod.yml
+#   UNIT_PORTAL: 观察视角, 查看集群状态
 # ####################################
 GROUP := $(shell basename $(PWD))
 UNITS := k8s-dashboard k8s-admin
@@ -24,7 +24,7 @@ CTL := kubectl -n $(GROUP)
 # 固件配置 AREA
 # ####################################
 K8S_MK	:= make -C .. -f k8s-yml-ctl.mk 
-DK			:= docker
+DK		:= docker
 
 
 # ####################################
@@ -39,7 +39,7 @@ stop-all:
 	$(call doBatExec,stop)
 
 # 全局初始化、逆初始化、重置
-ginit: init-master init-cluster-user init-network 
+ginit_post: init-master init-cluster-user init-network 
 gfini:
 greset:
 
