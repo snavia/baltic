@@ -37,7 +37,7 @@ services:
       - setup.kibana.host=${KIBANA_HOST}
       - output.elasticsearch.hosts=${ELASTICSEARCH_HOSTS}
     volumes:
-      - ${PWD}/conf/apm-server.yml:/usr/share/apm-server/apm-server.yml
+      - ./conf/apm-server.yml:/usr/share/apm-server/apm-server.yml
     networks:
       - elastic
 
@@ -53,7 +53,7 @@ services:
       allow_es_settings_modification: "true"
     # yml配置，已在环境变量中控制
     # volumes:
-    #   - ${PWD}/conf/app-search.yml:/usr/share/app-search/config/app-search.yml
+    #   - ./conf/app-search.yml:/usr/share/app-search/config/app-search.yml
     networks:
       - elastic
 

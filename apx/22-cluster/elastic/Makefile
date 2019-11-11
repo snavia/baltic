@@ -24,9 +24,9 @@ ginit: init-dir
 # 	init-dir: ES使用普通用户启动，uid=1000
 # ####################################
 init-dir:
-	[ ! -d "data/es01" ] || mkdir -p "data/es01"
-	[ ! -d "data/es02" ] || mkdir -p "data/es02"
-	[ ! -d "data/es03" ] || mkdir -p "data/es03"
+	[ -d "data/es01" ] || mkdir -p "data/es01"
+	[ -d "data/es02" ] || mkdir -p "data/es02"
+	[ -d "data/es03" ] || mkdir -p "data/es03"
 	sudo chown -Rv 1000:1000 data
 
 

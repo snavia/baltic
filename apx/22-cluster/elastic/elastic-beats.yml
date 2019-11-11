@@ -35,7 +35,7 @@ services:
     privileged: true  
     pid: "host"
     volumes:
-      - ${PWD}/conf/auditbeat${BEAT_YAML_EXT}:/usr/share/auditbeat/auditbeat.yml
+      - ./conf/auditbeat${BEAT_YAML_EXT}:/usr/share/auditbeat/auditbeat.yml
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - elastic
@@ -48,7 +48,7 @@ services:
       - ELASTICSEARCH_HOSTS
     privileged: true  
     volumes:
-      - ${PWD}/conf/metricbeat${BEAT_YAML_EXT}:/usr/share/metricbeat/metricbeat.yml
+      - ./conf/metricbeat${BEAT_YAML_EXT}:/usr/share/metricbeat/metricbeat.yml
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro
       - /proc:/hostfs/proc:ro
@@ -63,7 +63,7 @@ services:
   #     - setup.kibana.host=${KIBANA_HOST}
   #     - ELASTICSEARCH_HOSTS
   #   # volumes:
-  #   #   - ${PWD}/conf/heartbeat${BEAT_YAML_EXT}:/usr/share/heartbeat/heartbeat.yml
+  #   #   - ./conf/heartbeat${BEAT_YAML_EXT}:/usr/share/heartbeat/heartbeat.yml
   #   networks:
   #     - elastic
   
@@ -75,7 +75,7 @@ services:
       - ELASTICSEARCH_HOSTS
     privileged: true
     volumes:
-      - ${PWD}/conf/packetbeat${BEAT_YAML_EXT}:/usr/share/packetbeat/packetbeat.yml
+      - ./conf/packetbeat${BEAT_YAML_EXT}:/usr/share/packetbeat/packetbeat.yml
     networks:
       - elastic
   
@@ -88,7 +88,7 @@ services:
     ports:
       - 9000:9000
     volumes:
-      - ${PWD}/conf/filebeat${BEAT_YAML_EXT}:/usr/share/filebeat/filebeat.yml
+      - ./conf/filebeat${BEAT_YAML_EXT}:/usr/share/filebeat/filebeat.yml
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
       - /var/run/docker.sock:/var/run/docker.sock
     networks:

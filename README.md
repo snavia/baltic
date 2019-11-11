@@ -133,14 +133,17 @@ make -C apk/kube-system/ init-node
 ```
 - docker/k8s in docker
 ```bash
-# 启动CentOS7集群, 会虚拟出3台机器(test-m1, test-n1, test-n2)
-make -C apx/44-test APP=os-c7-cluster ginit start
-# 选取test-m1，进入测试环境
-docker exec -it test-m1 bash
-# 当前项目挂载到了/project目录下，因镜像是最小环境，此时我们使用自己的make来构建
-/project/bin/make -C /project/apk/kube-system/ install-master ginit_post
-# 登陆test-n1, test-n2,...
-# 这块还没有深挖，大家一起探索哈^_^
+# 复验有点问题，docker in docker是ok的， ku
+# beadmin初始化，加载kernel错误，后续研究好，再说
+# 
+# # 启动CentOS7集群, 会虚拟出3台机器(test-m1, test-n1, test-n2)
+# make -C apx/44-test APP=os-c7-cluster ginit start
+# # 选取test-m1，进入测试环境
+# docker exec -it test-m1 bash
+# # 当前项目挂载到了/project目录下，因镜像是最小环境，此时我们使用自己的make来构建
+# /project/bin/make -C /project/apk/kube-system/ install-master ginit_post
+# # 登陆test-n1, test-n2,...
+# # 这块还没有深挖，大家一起探索哈^_^
 ```
 
 - 其它
@@ -152,7 +155,7 @@ make -C apk/open-falcon start-all
 
 # 基于docker-compose, docker 请参考目录介绍章节，这里不再啰嗦哈...
 # 请注意不同的"内聚"方式哈
-make -C apx/22-cluster/elastic start
+make -C apx/22-cluster/elastic ginit start # 1000:1000 需要有该用户组权限
 make -C apx/00 APP=nginx start
 make -C apx/falcon-mysql start
 
