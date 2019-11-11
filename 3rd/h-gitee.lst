@@ -1,5 +1,20 @@
+# git协议下载不来，必须https的放在这里
+# 一般主要是mirrors，只读加速仓库
+
 # DB
 mirrors/tidb
 
 # co
 mirrors/etcd
+
+# 配置中心
+mirrors/ctrip-apollo
+
+# 数据协议
+mirrors/protobuf
+
+# K8S(代码量太大，按需打开)
+# mirrors/Kubernetes
+# mirrors/heapster
+# mirrors/prometheus-kubernetes
+# mirrors/prometheus

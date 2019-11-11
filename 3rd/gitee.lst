@@ -1,11 +1,1 @@
-# K8S(代码量太大，按需打开)
-# mirrors/Kubernetes
-# mirrors/heapster
-# mirrors/prometheus-kubernetes
-# mirrors/prometheus
-
-# 配置中心
-mirrors/ctrip-apollo
-
-# 数据协议
-mirrors/protobuf
+# gitee 优质代码列表
