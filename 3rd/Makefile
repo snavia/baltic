@@ -11,6 +11,7 @@ DATE_SUF = $(shell date +%Y.%m.%d.%H.%M.%S)
 init:
 	$(call fetchRepoList,gitee.lst,git@gitee.com:)
 	$(call fetchRepoList,github.lst,git@github.com:)
+	$(call fetchRepoList,h-gitee.lst,https://gitee.com/)
 	@echo ALL DONE;
 fini:
 	echo "$@ - PASS"
@@ -47,7 +48,8 @@ define fetchRepoList
 		dname=$$(dirname $$x); \
 		fname=$$(basename $$x); \
 		[ ! -d "$$dname" ] && mkdir -p "$$dname"; \
-		[ ! -d "$$x" ] && git clone "$(2)$${x}.git" "$$x"; \
+		[ ! -d "$$x" ] && git clone --depth=1 "$(2)$${x}.git" "$$x"; \
 		echo "$$x done"; \
 	done;
 endef
+

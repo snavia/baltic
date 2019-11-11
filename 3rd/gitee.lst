@@ -1,8 +1,8 @@
-# K8S
-mirrors/Kubernetes
-mirrors/heapster
-mirrors/prometheus-kubernetes
-mirrors/prometheus
+# K8S(代码量太大，按需打开)
+# mirrors/Kubernetes
+# mirrors/heapster
+# mirrors/prometheus-kubernetes
+# mirrors/prometheus
 
 # 配置中心
 mirrors/ctrip-apollo

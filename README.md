@@ -50,7 +50,7 @@ Baltic 容器脚本整合、开源代码编译整合 管理器
 > - **make {status|start|stop|log|mon|port|bash}**　执行
 > - **make ginit** 启动容器前执行，预创建目录，导入数据库等
 > - **make ginit_post**(可能没有)，容器启动好后，用于初始化
-> - **make bash** `docker exec -it bash`封装，便于快速测试
+> - **make bash** `docker exec -it 容器名 bash`封装，便于快速测试
 
 - 数据目录共享，基于docker-compose灵活编排
 > - 请参考 **apx/00/** 目录结构
@@ -58,11 +58,11 @@ Baltic 容器脚本整合、开源代码编译整合 管理器
 > - 用法 **make -C apx/00 APP={zk|nginx|redis|...} {ginit|start|stop|status|log|bash}**
 > - 功能同上...
 > - 其中APP=zk,则对应**zk.yml** 或 **zk.prod.yml**
-> - **.env** 文件，用于给docker-compose的yaml文件传替参数
+> - **.env** 文件，用于给docker-compose的yaml文件传递参数
 > - 本目录，适合全局统一管理基础组件，**.env**可以存放公共的密码啥的
 > - **.env** 参考：https://docs.docker.com/compose/environment-variables/
 
-- 大型项目，集群结构，stack全家桶，不同方案可选
+- 大型项目、集群结构、stack全家桶、不同部署策略的
 > - 请参考 **apx/22-cluster** 以集群为核心
 > - 用法: 上面两种情况的*双剑合壁，这里就不啰嗦啦*
 
@@ -106,12 +106,9 @@ make -C apx/00 APP=mongo start
 **注**
 > - 为简化书写，突出重点，文中调用make时，部分会忽略 **-C,-f** 参数，
 > - 但请务必，养成中心化操作的习惯，让脚本更加鲁棒，拒绝 **./x.sh** 执行方式，具体使用时 **make -C xx [-f xx]** 执行
-> - 此外，实质**make -C dir**本身切换了工作目录
-> - 这样可以达到 **ssh 主机名 make -C dir {start|stop|status}** 执行方式，方便与**ansible, crontab**等整合，在最上层一键操作、计划任务等，把Linux主机当作**黑盒**使用，减少不必要的登陆
+> - 此外，实质**make -C dir**本身切换了工作目录，吞吃 **cd dir && ./x.sh** 情况
+> - 这样可以达到 **ssh 主机名 make -C dir {start|stop|status}** 执行方式，方便与**ansible, crontab**等整合，在最上层一键操作、计划任务等，把Linux主机当作**黑盒**使用，减少不必要的登陆、交互
 
----
-## 规划
-**生产环境配置，基于ansible模板生成**
 
 ---
 ## 功欲善其事
@@ -123,7 +120,7 @@ make -C apx/00 APP=mongo start
 ---
 ## Get-Started快速开始
 
-#### docker极速体验
+#### docker、docker-compose、k8s开箱体验
 - 真机安装k8s体验;
 ```bash
 # 1. 准备 先在ssl目录中，放置https证书文件
@@ -140,7 +137,7 @@ make -C apk/kube-system/ init-node
 make -C apx/44-test APP=os-c7-cluster ginit start
 # 选取test-m1，进入测试环境
 docker exec -it test-m1 bash
-# 当前项目挂载到了/project目录下，因镜像是最小环境，此时我们使用自己的make来启动
+# 当前项目挂载到了/project目录下，因镜像是最小环境，此时我们使用自己的make来构建
 /project/bin/make -C /project/apk/kube-system/ install-master ginit_post
 # 登陆test-n1, test-n2,...
 # 这块还没有深挖，大家一起探索哈^_^
@@ -180,12 +177,17 @@ make build
 ```
 
 ---
+## 后续规划
+**生产环境配置，基于ansible模板生成**
+
+
+---
 ## 已知问题
-- 目前k8s,是半环境，dashboard没有完全配置好，缺少数据支撑，后续完善哈，**kubectl create/delete** 这些命令行执行都是没有问题的
+- 目前k8s是半环境，dashboard没有完全配置好，缺少数据支撑，后续完善哈，**kubectl create/delete** 这些命令行执行都是没有问题的，集群状态是OK的
   
 
 
 ---
 ### FAQ
 - 参考文档哪里寻？哪里放？
-> 以绿色部署为主，高内聚模式，相关的参考文档，请参考对应的Makefile或.yml的注释部分
+> 以绿色部署为主，高内聚模式，相关的参考文档，请参考对应的**Makefile** 或 **.yml** 的 **注释** 部分
