@@ -28,6 +28,8 @@ services:
     restart: always
     hostname: codis-proxy1
     container_name: codis-proxy1
+    extra_hosts:
+      baltic: 172.17.0.1
     ports:
       - ${HOST_PROXY_ADMIN_PORT}:${PROXY_ADMIN_PORT}
       - ${HOST_PROXY_PORT}:${PROXY_PORT}
