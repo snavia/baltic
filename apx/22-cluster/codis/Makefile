@@ -10,8 +10,8 @@ SVC_HOST := $(shell hostname -a)
 # ####################################
 # Dashboard AREA
 # ####################################
-start: ginit start-g1
-stop: stop-g1
+start: ginit start-g1 start-proxy start-web
+stop: stop-web stop-proxy stop-g1
 
 
 test: test-core
@@ -31,7 +31,25 @@ init-dir:
 
 
 # ####################################
-#　group1 AREA
+# Web AREA
+# ####################################
+start-web:
+	docker-compose -f codis-web.yml up -d
+stop-web:
+	docker-compose -f codis-web.yml down
+
+
+# ####################################
+# Proxys AREA
+# ####################################
+start-proxy:
+	docker-compose -f codis-proxy.yml up -d
+stop-proxy:
+	docker-compose -f codis-proxy.yml down
+
+
+# ####################################
+#　Server Group AREA
 # ####################################
 start-g1:
 	docker-compose -f codis-g1.yml up -d

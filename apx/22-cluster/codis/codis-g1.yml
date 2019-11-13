@@ -33,7 +33,7 @@ services:
       - ./conf:/codis/conf
       - ../../../log/codis:/codis/log
     networks:
-      - codis-cluster
+      - codis-cluster-g1
 
   codis-g1-s2:
     image: ${CODIS_IMG_TAG}
@@ -48,7 +48,7 @@ services:
       - ./conf:/codis/conf
       - ../../../log/codis:/codis/log
     networks:
-      - codis-cluster
+      - codis-cluster-g1
 
   codis-g1-s3:
     image: ${CODIS_IMG_TAG}
@@ -63,7 +63,7 @@ services:
       - ./conf:/codis/conf
       - ../../../log/codis:/codis/log
     networks:
-      - codis-cluster
+      - codis-cluster-g1
 
   codis-g1-s4:
     image: ${CODIS_IMG_TAG}
@@ -78,8 +78,8 @@ services:
       - ./conf:/codis/conf
       - ../../../log/codis:/codis/log
     networks:
-      - codis-cluster
+      - codis-cluster-g1
 
 networks:
-  codis-cluster:
+  codis-cluster-g1:
     driver: bridge
