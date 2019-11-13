@@ -33,6 +33,7 @@ services:
     ports:
       - ${HOST_FE_PORT}:${FE_PORT}
     volumes:
+      - ./data/tmp/codis:/tmp/codis
       - ./data/codis-fe:/codis/data
       - ./conf:/codis/conf
       - ../../../log/codis:/codis/log
@@ -50,6 +51,7 @@ services:
     ports:
       - ${HOST_DASHBOARD_PORT}:${DASHBOARD_PORT}
     volumes:
+      - ./data/tmp/codis:/tmp/codis
       - ./data/codis-dashboard:/codis/data
       - ./conf:/codis/conf
       - ../../../log/codis:/codis/log

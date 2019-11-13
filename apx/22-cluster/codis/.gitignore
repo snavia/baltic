@@ -2,6 +2,7 @@
 
 # DATA-DIR-BEGIN
 data
+data/tmp/codis
 data/codis-fe
 data/codis-proxy
 data/codis-dashboard
