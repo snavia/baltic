@@ -5,18 +5,28 @@
 # Config AREA
 # ####################################
 SVC_HOST := $(shell hostname -a)
+SERVER_GROUPS := g1 g2 g3 g4
 
 
 # ####################################
 # Dashboard AREA
 # ####################################
-start: ginit start-g1 start-proxy start-web
-stop: stop-web stop-proxy stop-g1
-
-
+status: status-port
+start: ginit start-servers start-proxy start-web
+stop: stop-web stop-proxy stop-servers
 test: test-core
-
 ginit: init-dir
+
+bash:
+	docker exec -it codis-g1-s1 bash
+
+
+# ####################################
+# Status/Info AREA
+# ####################################
+status-port:
+	sudo netstat -lntop | grep docker | sort -n -k4
+	docker ps -a | grep codis
 
 
 # ####################################
@@ -51,6 +61,17 @@ stop-proxy:
 # ####################################
 #　Server Group AREA
 # ####################################
+start-servers:
+	for x in $(SERVER_GROUPS); do docker-compose -f codis-$$x.yml up -d; done;
+stop-servers:
+	for x in $(SERVER_GROUPS); do docker-compose -f codis-$$x.yml down; done;
+
+
+# ####################################
+# Debug AREA
+# ####################################
+start-g1-fg:
+	docker-compose -f codis-g1.yml up
 start-g1:
 	docker-compose -f codis-g1.yml up -d
 stop-g1:
@@ -62,8 +83,6 @@ stop-g1:
 # ####################################
 test-core:
 
-bash:
-	docker exec -it codis-g1-s1 bash
 
 
 # ####################################
