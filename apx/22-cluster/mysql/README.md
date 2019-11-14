@@ -9,6 +9,31 @@
 |**g3**|**3336**|3337-3338||
 |**g4**|**3346**|3347-3348||
 
+#### Quick Started
+
+```bash
+# 以当前目录执行为例
+# 如果中心化，项目根目录下执行，则为 make -C apx/22-cluster/mysql ...
+
+# 启动
+make ginit start
+
+# 主节点，添加replicas用户
+make cluster-add-repl-account
+
+# 开启同步、查看状态、关闭同步
+make cluster-start-slave
+make cluster-status-slave
+make cluster-stop-slave
+
+# 同步异常复位
+make cluster-reset-slave
+
+# 主节点状态(功能再进一步完善)
+make cluster-status-master
+
+```
+
 
 ---
 ## 参考
