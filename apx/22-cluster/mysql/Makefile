@@ -107,7 +107,7 @@ cluster-start-slave:
 	for x in $(SERVER_GROUPS); do \
 		for y in $(SLAVE_NAMES); do \
 			$(DK) exec -it mysql-$${x}-$${y} mysql -uroot -p${SLAVE_PASSWD} \
-				-e "CHANGE MASTER TO MASTER_HOST='192.168.16.2', MASTER_PORT=3306, MASTER_USER='${REPL_NAME}', MASTER_PASSWORD='${REPL_PASSWD}', MASTER_AUTO_POSITION=1, MASTER_SSL=1;" \
+				-e "CHANGE MASTER TO MASTER_HOST='mysql-$${x}-s1', MASTER_PORT=3306, MASTER_USER='${REPL_NAME}', MASTER_PASSWORD='${REPL_PASSWD}', MASTER_AUTO_POSITION=1, MASTER_SSL=1;" \
 				-e "START SLAVE;" ; \
 		done; \
 	done;
