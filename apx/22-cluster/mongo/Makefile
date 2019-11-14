@@ -18,6 +18,9 @@ DC	:= docker-compose
 # ####################################
 SVC_HOST := $(shell hostname -a)
 SERVER_RSS := rs1 rs2 conf shard
+YAML_FILE_GROUPS := $(foreach x,$(SERVER_RSS),-f mongo-$(x).yml)
+APP := mongo-router
+DK_EXEC := $(DK) exec -it $(APP)
 
 
 # ####################################
@@ -62,9 +65,9 @@ init-dir:
 #　Server Group AREA
 # ####################################
 start-servers:
-	for x in $(SERVER_RSS); do docker-compose -f mongo-$$x.yml up -d; done;
+	docker-compose $(YAML_FILE_GROUPS) up -d
 stop-servers:
-	for x in $(SERVER_RSS); do docker-compose -f mongo-$$x.yml down; done;
+	docker-compose $(YAML_FILE_GROUPS) down
 
 
 # ####################################
@@ -76,6 +79,13 @@ stop-servers:
 # Test AREA
 # ####################################
 test-core:
+	$(DK) cp ./scripts $(APP):/tmp
+	$(DK_EXEC) mongo --eval 'quit(db.runCommand({ ping: 1 }).ok ? 0 : 2)'; echo $$?
+	$(DK_EXEC) mongo /tmp/scripts/shard-status.js
+	sleep 1
+	$(DK_EXEC) mongo /tmp/scripts/test.js
+	sleep 1
+	$(DK_EXEC) mongo /tmp/scripts/shard-status.js
 
 
 # ####################################

@@ -5,7 +5,7 @@ services:
     restart: always
     hostname: mongo-conf-s2
     container_name: mongo-conf-s2
-    command: ${RC_CMD_OPT}
+    command: ${CONF_CMD}
     volumes:
       - ./data/mongo-conf-s2:/data/configdb
 
@@ -14,7 +14,7 @@ services:
     restart: always
     hostname: mongo-conf-s3
     container_name: mongo-conf-s3
-    command: ${RC_CMD_OPT}
+    command: ${CONF_CMD}
     volumes:
       - ./data/mongo-conf-s3:/data/configdb
 
@@ -23,7 +23,7 @@ services:
     restart: always
     hostname: mongo-conf-s1
     container_name: mongo-conf-s1
-    command: ${RC_CMD_OPT}
+    command: ${CONF_CMD}
     volumes:
       - ./data/mongo-conf-s1:/data/configdb
     links:
