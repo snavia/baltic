@@ -14,9 +14,9 @@
 ```bash
 # 1. 准备 先在ssl目录中，放置https证书文件
 # 2. 安装并配置master
-make -C apk/kube-system/ install-master ginit_post
+make install-master ginit_post
 # 3. 安装node
-make -C apk/kube-system/ install-node
+make install-node
 ```
 
 ----
