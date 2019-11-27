@@ -10,8 +10,17 @@
   - **ssl/dashboard.crt** (公钥)
   - **ssl/dashboard.key** (私钥)
 
+### 快速安装
+```bash
+# 1. 准备 先在ssl目录中，放置https证书文件
+# 2. 安装并配置master
+make -C apk/kube-system/ install-master ginit_post
+# 3. 安装node
+make -C apk/kube-system/ install-node
+```
 
-### 安装master
+----
+### 安装master(单步,请优先使用快速安装)
 ```bash
 # step1. 
 #   安装所有组件(Docker, kubectl, kubeadm, kubelet)
@@ -28,7 +37,7 @@ make token
 
 ```
 
-### 安装node
+### 安装node(单步,请优先使用快速安装)
 ```bash
 # step1. 
 #   安装所有组件(Docker, kubectl, kubeadm, kubelet)

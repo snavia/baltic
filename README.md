@@ -127,7 +127,7 @@ make -C apx/00 APP=mongo start
 # 2. 安装并配置master
 make -C apk/kube-system/ install-master ginit_post
 # 3. 安装node
-make -C apk/kube-system/ init-node
+make -C apk/kube-system/ install-node
 # 3.1 join集群及每一步详情
 # 请参见 apk/kube-system/README.md
 ```
