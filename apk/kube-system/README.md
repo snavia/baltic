@@ -52,6 +52,16 @@ kubeadm join xxx.xxx.xxx.xxx:6443 --token xxx \
 
 ```
 
+
+---
+## 配置Dashboard
+
+```bash
+# 允许外部访问
+kubectl proxy --address='0.0.0.0'  --accept-hosts='^*$'
+```
+
+
 ### 已知问题
 1. masters, nodes 防火墙仍需要全部停止
 2. dashboard 还没配好哈，貌似依赖 heapster, prometheus，待续
